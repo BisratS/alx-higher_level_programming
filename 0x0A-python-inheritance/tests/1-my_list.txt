@@ -1,113 +1,108 @@
-The ``1-my_list`` module
-============================
 
-Using ``MyList``
----------------------
+0t.txt module
+====================
 
-Importing function from the module:
-    >>> MyList = __import__('1-my_list').MyList
+Importing the class from the module:
+>>> MyList = __import__("1-my_list").MyList
 
+Checking for module docstring:
+>>> m = __import__("1-my_list").__doc__
+>>> len(m) > 1
+True
 
-Printing a sorted list 1 (positive numbers)
-    >>> my_list = MyList()
-    >>> my_list += [0]
-    >>> my_list.append(4)
-    >>> my_list.append(1)
-    >>> my_list.append(10)
-    >>> my_list.append(3)
-    >>> my_list.append(7)
-    >>> my_list.print_sorted()
-    [0, 1, 3, 4, 7, 10]
+Checking for class docstring:
+>>> c = __import__("1-my_list").MyList.__doc__
+>>> len(c) > 1
+True
 
+Checking for method docstring
+        >>> f = __import__("1-my_list").MyList.print_sorted.__doc__
+        >>> len(f) > 1
+        True
 
-Printing a sorted list 2 (repeated numbers)
-    >>> my_list = MyList()
-    >>> my_list.append(1)
-    >>> my_list += [1]
-    >>> my_list.append(2)
-    >>> my_list.append(2)
-    >>> my_list += [2]
-    >>> my_list.print_sorted()
-    [1, 1, 2, 2, 2]
+Checking given test case
+>>> my_list = MyList()
 
+>>> my_list.append(1)
 
-Printing an sorted list 3 (one number)
-    >>> my_list = MyList()
-    >>> my_list += [3]
-    >>> my_list.print_sorted()
-    [3]
+>>> my_list.append(4)
 
+>>> my_list.append(2)
 
-Printing an sorted list 4 (positive and negative numbers)
-    >>> my_list = MyList()
-    >>> my_list.append(-5)
-    >>> my_list += [5]
-    >>> my_list += [4]
-    >>> my_list.append(0)
-    >>> my_list.append(-4)
-    >>> my_list.append(1)
-    >>> my_list += [-1]
-    >>> my_list.print_sorted()
-    [-5, -4, -1, 0, 1, 4, 5]
+>>> my_list.append(3)
 
+>>> my_list.append(5)
 
-Printing an empty list
-    >>> my_list = MyList()
-    >>> my_list.print_sorted()
-    []
+>>> print(my_list)
+[1, 4, 2, 3, 5]
 
+>>> my_list.print_sorted()
+[1, 2, 3, 4, 5]
 
-MyList is an instance of the class list
-    >>> my_list = MyList()
-    >>> isinstance(my_list, list)
-    True
+>>> print(my_list)
+[1, 4, 2, 3, 5]
 
+Checking empty object
+>>> obj1 = MyList()
 
-Instance has the correct type
-    >>> my_list = MyList()
-    >>> type(my_list) == MyList
-    True
+>>> print(obj1)
+[]
 
+>>> obj1.print_sorted()
+[]
 
-MyList is a subclass of list
-    >>> issubclass(MyList, list)
-    True
+Checking negative values
+>>> obj2 = MyList()
 
+>>> obj2.append(-1)
 
-Print_sorted method with 1 passed argument
-    >>> my_list = MyList()
-    >>> my_list.print_sorted([1, 2, 3])
-    Traceback (most recent call last):
-    	      ...
-    TypeError: print_sorted() takes 1 positional argument but 2 were given
+>>> obj2.append(0)
 
+>>> obj2.append(-233)
 
-Print_sorted method with 2 passed arguments
-    >>> my_list = MyList()
-    >>> my_list.print_sorted([1, 2], [5, 4])
-    Traceback (most recent call last):
-    	      ...
-    TypeError: print_sorted() takes 1 positional argument but 3 were given
+>>> obj2.append(-9)
 
+>>> print(obj2)
+[-1, 0, -233, -9]
 
-Type of the print_sorted method
-    >>> my_list = MyList()
-    >>> type(my_list.print_sorted)
-    <class 'method'>
+>>> obj2.print_sorted()
+[-233, -9, -1, 0]
 
+Checking NULL object
+>>> obj3 = MyList()
 
-Check printable string
-    >>> my_list = MyList()
-    >>> my_list.append(5)
-    >>> print(my_list)
-    [5]
+>>> obj3.append(NULL)
+Traceback (most recent call last):
+    ...
+NameError: name 'NULL' is not defined
 
-Check if print_sorted() returns a new list
-    >>> my_list = MyList()
-    >>> my_list.append(7)
-    >>> my_list.append(1)
-    >>> my_list.append(2)
-    >>> my_list.print_sorted()
-    [1, 2, 7]
-    >>> my_list
-    [7, 1, 2]
+>>> print(obj3)
+[]
+
+>>> obj3.print_sorted()
+[]
+
+Checking NaN object
+>>> obj4 = MyList()
+
+>>> obj4.append(NaN)
+Traceback (most recent call last):
+    ...
+NameError: name 'NaN' is not defined
+
+>>> print(obj4)
+[]
+
+>>> obj4.print_sorted()
+[]
+
+Checking None object
+>>> obj5 = MyList()
+
+>>> obj5.append(None)
+
+>>> print(obj5)
+[None]
+
+>>> obj5.print_sorted()
+[None]
