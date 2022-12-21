@@ -1,28 +1,27 @@
 #!/usr/bin/python3
-"""
-List all states with a name starting with N from the database hbtn_0e_0_usa.
-"""
+""" script that lists all states with a name starting with N
+(upper N) from the database hbtn_0e_0_usa"""
 import MySQLdb
-from sys import argv
-
+import sys
 
 if __name__ == "__main__":
-    _mysql_username = argv[1]
-    _mysql_password = argv[2]
-    _database_name = argv[3]
-
-    conn = MySQLdb.connect(
-         host="localhost",
-         port=3306,
-         user=_mysql_username,
-         passwd=_mysql_password,
-         db=_database_name,
-         charset="utf8")
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM states ORDER BY id ASC")
-    states = cur.fetchall()
-    for s in states:
-        if s[1][0] == 'N':
-            print(s)
+    db = MySQLdb.connect(host='localhost',
+                         user=sys.argv[1],
+                         passwd=sys.argv[2],
+                         db=sys.argv[3],
+                         port=3306)
+    """In order to put our new connnection to good use we
+     need to create a cursor object"""
+    cur = db.cursor()
+    """The execute function requires one parameter, the query."""
+    cur.execute("SELECT * FROM states\
+        WHERE name REGEXP BINARY '^N'\
+            ORDER BY id ASC")
+    """Obtaining Query Results"""
+    rows = cur.fetchall()
+    for row in rows:
+        print(row)
+    """ Close all cursors"""
     cur.close()
-    conn.close()
+    """Close all databases"""
+    db.close()

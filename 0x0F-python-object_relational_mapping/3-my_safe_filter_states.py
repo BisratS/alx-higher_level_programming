@@ -1,36 +1,27 @@
 #!/usr/bin/python3
-"""
-Take in arguments and display all values in the states table of hbtn_0e_0_usa
-where name matches the argument. But this time, write one that is safe from
-MySQL injections!
-"""
+""" cript that takes in an argument and displays all values in
+ the states table of hbtn_0e_0_usa where name matches the
+  argument."""
 import MySQLdb
-from sys import argv
-
-
-def main():
-    _user = argv[1]
-    _pw = argv[2]
-    _dbname = argv[3]
-    _sName = argv[4]
-
-    conn = MySQLdb.connect(
-         host="localhost",
-         port=3306,
-         user=_user,
-         passwd=_pw,
-         db=_dbname,
-         charset="utf8")
-    cur = conn.cursor()
-    query = "SELECT * FROM states ORDER BY id ASC"
-    cur.execute(query)
-    states = cur.fetchall()
-    for s in states:
-        if s[1] == _sName:
-            print(s)
-    cur.close()
-    conn.close()
-
+import sys
 
 if __name__ == "__main__":
-    main()
+    db = MySQLdb.connect(host='localhost',
+                         user=sys.argv[1],
+                         passwd=sys.argv[2],
+                         db=sys.argv[3],
+                         port=3306)
+    """In order to put our new connnection to good use we
+     need to create a cursor object"""
+    cur = db.cursor()
+    """The execute function requires one parameter, the query."""
+    cur.execute("SELECT * FROM states\
+        WHERE BINARY name = %s;", (sys.argv[4], ))
+    """Obtaining Query Results"""
+    rows = cur.fetchall()
+    for row in rows:
+        print(row)
+    """ Close all cursors"""
+    cur.close()
+    """Close all databases"""
+    db.close()

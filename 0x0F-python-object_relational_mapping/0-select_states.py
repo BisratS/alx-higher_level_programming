@@ -1,25 +1,24 @@
 #!/usr/bin/python3
-"""Lists all states from the database hbtn_0e_0_usa."""
-
+""" Write a script that lists all states from the database hbtn_0e_0_usa """
 import MySQLdb
-from sys import argv
+import sys
 
 if __name__ == "__main__":
-    _mysql_username = argv[1]
-    _mysql_password = argv[2]
-    _database_name = argv[3]
-
-    conn = MySQLdb.connect(
-         host="localhost",
-         port=3306,
-         user=_mysql_username,
-         passwd=_mysql_password,
-         db=_database_name,
-         charset="utf8")
-    cur = conn.cursor()
+    db = MySQLdb.connect(host='localhost',
+                         user=sys.argv[1],
+                         passwd=sys.argv[2],
+                         db=sys.argv[3],
+                         port=3306)
+    """In order to put our new connnection to good use we
+     need to create a cursor object"""
+    cur = db.cursor()
+    """The execute function requires one parameter, the query."""
     cur.execute("SELECT * FROM states ORDER BY id ASC")
-    query_rows = cur.fetchall()
-    for row in query_rows:
+    """Obtaining Query Results"""
+    rows = cur.fetchall()
+    for row in rows:
         print(row)
+    """ Close all cursors"""
     cur.close()
-    conn.close()
+    """Close all databases"""
+    db.close()
