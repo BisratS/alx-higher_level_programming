@@ -1,18 +1,31 @@
 #!/usr/bin/python3
 """
-List all cities from a database
+List all cities from the database hbtn_0e_4_usa
 """
-import sys
 import MySQLdb
+from sys import argv
 
-if __name__ == '__main__':
-    db = MySQLdb.connect(user=sys.argv[1], passwd=sys.argv[2],
-                         db=sys.argv[3], port=3306)
 
-    cur = db.cursor()
-    cur.execute("SELECT cities.id, cities.name, states.name \
-    FROM cities JOIN states ON cities.state_id = states.id;")
-    states = cur.fetchall()
+if __name__ == "__main__":
+    _user = argv[1]
+    _pw = argv[2]
+    _dbname = argv[3]
 
-    for state in states:
-        print(state)
+    conn = MySQLdb.connect(
+         host="localhost",
+         port=3306,
+         user=_user,
+         passwd=_pw,
+         db=_dbname,
+         charset="utf8")
+    cur = conn.cursor()
+    cur.execute("SELECT `c`.`id`, `c`.`name`, `s`.`name` \
+                FROM `cities` as `c` \
+                INNER JOIN `states` as `s` \
+                   ON `c`.`state_id` = `s`.`id` \
+                ORDER BY `c`.`id`")
+    cities = cur.fetchall()
+    for citie in cities:
+        print(citie)
+    cur.close()
+    conn.close()
