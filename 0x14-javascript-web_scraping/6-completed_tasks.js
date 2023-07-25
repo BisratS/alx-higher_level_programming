@@ -1,23 +1,25 @@
 #!/usr/bin/node
-/*
-computes the number of tasks completed by user id
-*/
-const axios = require('axios');
-const dictUser = {};
-
-axios({
-  method: 'GET',
-  url: process.argv[2]
-})
-  .then(response => {
-    response.data.forEach(task => {
-      if (task.completed === true) {
-        if (dictUser[task.userId] === undefined) {
-          dictUser[task.userId] = 0;
+const request = require('request');
+const args = process.argv;
+const requestURL = args[2];
+const list = {};
+request.get(requestURL, (err, res, body) => {
+  if (err) {
+    console.log(err);
+  } else {
+    const data = JSON.parse(body);
+    let user = 'default';
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].completed === true) {
+        if (!(data[i].userId in list)) {
+          user = data[i].userId;
+          list[user] = 1;
+        } else {
+          user = data[i].userId;
+          list[user] += 1;
         }
-        dictUser[task.userId] += 1;
       }
-    });
-    console.log(dictUser);
-  })
-  .catch(err => console.log(err));
+    }
+    console.log(list);
+  }
+});
