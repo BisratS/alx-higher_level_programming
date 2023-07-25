@@ -3,16 +3,20 @@ const request = require('request');
 
 request(process.argv[2], function (err, response, body) {
   if (err == null) {
-    const resp = {};
-    const json = JSON.parse(body);
-    for (let i = 0; i < json.length; i++) {
-      if (json[i].completed === true) {
-        if (resp[json[i].userId] === undefined) {
-          resp[json[i].userId] = 0;
+    // Convert JSON TO Objects
+    const todos = JSON.parse(body);
+    // Create dictionary
+    const TaskCompleted = {};
+    for (let i = 0; i < todos.length; i++) {
+      // verify task completed
+      if (todos[i].completed === true) {
+        if (TaskCompleted[todos[i].userId] === undefined) {
+          TaskCompleted[todos[i].userId] = 0;
         }
-        resp[json[i].userId]++;
+        TaskCompleted[todos[i].userId]++;
       }
     }
-    console.log(resp);
+    // print task completed dictionary
+    console.log(TaskCompleted);
   }
 });
